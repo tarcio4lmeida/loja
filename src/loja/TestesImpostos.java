@@ -1,7 +1,8 @@
 package loja;
 
 import loja.imposto.CalculadoraDeImpostos;
-import loja.imposto.TipoImposto;
+import loja.imposto.ICMS;
+import loja.imposto.ISS;
 import loja.orcamento.Orcamento;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ public class TestesImpostos {
         Orcamento orcamento  = new Orcamento(new BigDecimal("100"));
         CalculadoraDeImpostos calculadoraDeImpostos = new CalculadoraDeImpostos();
 
-        System.out.println(calculadoraDeImpostos.calcular(orcamento, TipoImposto.ISS));
+        System.out.println(calculadoraDeImpostos.calcular(orcamento, new ISS()));
+        System.out.println(calculadoraDeImpostos.calcular(orcamento, new ICMS()));
     }
 }
