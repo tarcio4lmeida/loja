@@ -1,22 +1,25 @@
 package loja.pedido;
 
 import loja.orcamento.Orcamento;
+import loja.pedido.acao.AcaoAposGerarPedido;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class GeraPedidoHandler {
-	
-	// injecao de dependencias para servicos de infra
-	public GeraPedidoHandler() {
-	}
 
-	public void executar(GeraPedido geraPedido) {
-		Orcamento orcamento = new Orcamento(geraPedido.getValorOrcamento(), geraPedido.getQuantidadeItens());
-		Pedido pedido = new Pedido(geraPedido.getCliente(), LocalDateTime.now(), orcamento);
+    private List<AcaoAposGerarPedido> acoes;
+    // injecao de dependencias para servicos de infra
 
-		// utilizacao dos servicos de infra
-		System.out.println("Salvando pedido no banco de dados...");
-		System.out.println("Enviando email para cliente sobre pedido...");
-	}
-	
+    public GeraPedidoHandler(List<AcaoAposGerarPedido> acoes) {
+        this.acoes = acoes;
+    }
+
+    public void executar(GeraPedido geraPedido) {
+        Orcamento orcamento = new Orcamento(geraPedido.getValorOrcamento(), geraPedido.getQuantidadeItens());
+        Pedido pedido = new Pedido(geraPedido.getCliente(), LocalDateTime.now(), orcamento);
+
+        acoes.forEach(a -> a.executarAcao(pedido));
+    }
+
 }
